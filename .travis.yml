@@ -1,0 +1,20 @@
+language: go
+
+go:
+  - 1.7.1
+  - master
+
+script:
+  - go build map.go
+
+  - go test ./map_test.go
+
+  - go test -bench=. -benchmem ./benchmarks/...
+
+install: true
+
+git:
+  depth: 3
+
+notifications:
+  email: false
