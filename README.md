@@ -1,9 +1,12 @@
 # Duckmap
-## Concurrent and DRY interface to interface map
+## About
+This is concurrent and DRY interface to interface map.
 
-### Quickstart
-```
-m := duckmap.NewMap()
+## Quickstart
+```golang
+// pass a number of buckets to the constructor
+// higher the number - faster the map (caveat memory usage)
+m := duckmap.NewMap(256)
 
 m.Set(4, "this")
 m.Set(5, "that")
