@@ -1,4 +1,6 @@
 # Duckmap
+[![Build Status](https://travis-ci.org/hypersolid/duckmap.svg?branch=master)](https://travis-ci.org/hypersolid/duckmap)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hypersolid/duckmap)](https://goreportcard.com/report/github.com/hypersolid/duckmap)
 ## About
 This is concurrent and DRY interface to interface map.
 
