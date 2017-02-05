@@ -9,12 +9,13 @@ import (
 )
 
 const (
-	testRange = 1000
-	testProcs = 3
+	concurrency = 1000
+	testRange   = 1000
+	testProcs   = 3
 )
 
 func Test_Set_works(t *testing.T) {
-	m := NewMap()
+	m := NewMap(concurrency)
 	k := rand.Int()
 	v := rand.Int()
 	m.Set(k, v)
@@ -24,7 +25,7 @@ func Test_Set_works(t *testing.T) {
 }
 
 func Test_Get_works(t *testing.T) {
-	m := NewMap()
+	m := NewMap(concurrency)
 	k := rand.Int()
 	v := rand.Int()
 	m.Set(k, v)
@@ -34,7 +35,7 @@ func Test_Get_works(t *testing.T) {
 }
 
 func Test_Delete_works(t *testing.T) {
-	m := NewMap()
+	m := NewMap(concurrency)
 	k := rand.Int()
 	v := rand.Int()
 	m.Set(k, v)
@@ -45,7 +46,7 @@ func Test_Delete_works(t *testing.T) {
 }
 
 func Test_Keys_works(t *testing.T) {
-	m := NewMap()
+	m := NewMap(concurrency)
 	checksum1 := 0
 	for i := 0; i < testRange; i++ {
 		m.Set(i, i^2)
@@ -64,7 +65,7 @@ func Test_Keys_works(t *testing.T) {
 }
 
 func Test_Values_works(t *testing.T) {
-	m := NewMap()
+	m := NewMap(concurrency)
 	checksum1 := 0
 	for i := 0; i < testRange; i++ {
 		m.Set(i^2, i)
@@ -83,7 +84,7 @@ func Test_Values_works(t *testing.T) {
 }
 
 func Test_String_works(t *testing.T) {
-	m := NewMap()
+	m := NewMap(concurrency)
 	m.Set("test", true)
 	match, _ := regexp.MatchString(`DuckMap<\d+>`, m.String())
 	if !match {
@@ -93,7 +94,7 @@ func Test_String_works(t *testing.T) {
 
 func Test_parallel_operation(t *testing.T) {
 	procs := runtime.GOMAXPROCS(testProcs)
-	m := NewMap()
+	m := NewMap(concurrency)
 	var wg sync.WaitGroup
 	for i := 0; i < testProcs; i++ {
 		wg.Add(1)
@@ -116,7 +117,7 @@ func Benchmark_duckmap_parallel_write(b *testing.B) {
 	procs := runtime.GOMAXPROCS(testProcs)
 	start := make(chan struct{}, testProcs)
 	done := make(chan struct{}, testProcs)
-	m := NewMap()
+	m := NewMap(concurrency)
 	for k := 0; k < testProcs; k++ {
 		go func() {
 			<-start
@@ -142,7 +143,7 @@ func Benchmark_duckmap_parallel_read(b *testing.B) {
 	procs := runtime.GOMAXPROCS(testProcs)
 	start := make(chan struct{}, testProcs)
 	done := make(chan struct{}, testProcs)
-	m := NewMap()
+	m := NewMap(concurrency)
 	for k := 0; k < testProcs; k++ {
 		go func() {
 			<-start

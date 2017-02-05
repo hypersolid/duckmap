@@ -33,7 +33,7 @@ func (m *Map) Delete(key interface{}) {
 // Keys returns map keys
 func (m *Map) Keys() []interface{} {
 	result := make([]interface{}, 0)
-	for b := 0; b < concurrency; b++ {
+	for b := 0; b < m.concurrency; b++ {
 		m.mutices[b].RLock()
 		internalResult := make([]interface{}, len(m.ducklings[b]))
 		i := 0
@@ -50,7 +50,7 @@ func (m *Map) Keys() []interface{} {
 // Values returns map values
 func (m *Map) Values() []interface{} {
 	result := make([]interface{}, 0)
-	for b := 0; b < concurrency; b++ {
+	for b := 0; b < m.concurrency; b++ {
 		m.mutices[b].RLock()
 		internalResult := make([]interface{}, len(m.ducklings[b]))
 		i := 0
